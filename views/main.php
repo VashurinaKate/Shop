@@ -18,7 +18,7 @@ $pathToSvg = '../public/images/svg/'; // ?????
     <header class="header center">
         <div class="header__left">
             <a href="index.php"><img src="<?=$pathToSvg?>logo.svg" alt="logo"></a>
-            <a href="index.php?action=catalog"><img src="<?=$pathToSvg?>search.svg" alt="search" class="header__search"></a>
+            <a href="index.php?controller=goods"><img src="<?=$pathToSvg?>search.svg" alt="search" class="header__search"></a>
         </div>
         <nav class="header__right">
             <details>
