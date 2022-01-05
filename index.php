@@ -21,6 +21,9 @@ switch ($_GET['controller'])
     case 'goods':
         $controller = new Catalog();
         break;
+    case 'good':
+        $controller = new Product();
+        break;
 	case 'user':
 		$controller = new User();
 		break;
