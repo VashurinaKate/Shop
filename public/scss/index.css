@@ -245,6 +245,7 @@ hr {
   grid-template-columns: 360px 360px 360px;
   justify-content: center;
   grid-gap: 30px;
+  margin-bottom: 50px;
 }
 .products__item {
   background: #F8F8F8;

@@ -1,10 +1,11 @@
 <?php
-include_once('../models/m_Catalog.class.php');
+include_once('models/M_Catalog.class.php');
 class Catalog extends Base
 {
 	public function action_index(){
-	    $model = new m_Catalog;
+	    $model = new M_Catalog;
+		$goods = $model->getGoods(25);
 		$this->title .= 'Каталог';
-		$this->content = $this->Template('views/catalog.php', array('goods' => $model->getGoods()));
+		$this->content = $this->Template('views/catalog.php', array('goods' => $goods));
 	}
 }

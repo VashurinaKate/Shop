@@ -4,7 +4,7 @@
     </div>
     <div class="promo__text">
         <div class="promo__content">
-            <h1 class="promo__h1">The Brand</h1>
+            <h1 class="promo__h1"><?=$slogan?></h1>
             <h2 class="promo__h2">Of Luxerious <span class="promo__h2__span">Fashion</span></h2>
         </div>
     </div>
