@@ -1,3 +1,4 @@
+<h1><?=$info?></h1>
 <form method="post" class="registration__form">
     <label for="email">Login details</label>
     <input type="email" id="email" class="registration__input" name="email" placeholder="Email" required>

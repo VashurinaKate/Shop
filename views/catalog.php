@@ -15,7 +15,7 @@
                     <a href="product.html"><?=$good['title']?></a>
                 </div>
                 <div class="products__item-description">
-                    <p><?=$good['info']?></p>
+                    <p><?=$good['shortinfo']?></p>
                 </div>
                 <div class="products__item-price"><span>&#36;<?=$good['price']?></span></div>
             </div>

@@ -5,6 +5,8 @@ define('DB_NAME','shop');
 define('DB_USER','root');
 define('DB_PASS','root');
 
+session_start();
+
 class M_User {
     const DB_DRIVER = 'mysql';
     const DB_HOST = 'localhost';
@@ -16,33 +18,31 @@ class M_User {
 	    $connect_str = self::DB_DRIVER . ':host='. self::DB_HOST . ';dbname=' . self::DB_NAME;
         $db = new PDO($connect_str,self::DB_USER,self::DB_PASS);
 
-        $sql = "SELECT FROM users WHERE email=$email AND password=$password";
+        $sql = "SELECT * FROM users WHERE email='$email' AND password='$password'";
         $res = $db->prepare($sql);
-        $data = $res->execute();
+        $res->execute();
+        $data = $res->fetchAll(PDO::FETCH_ASSOC);
         if ($data) {
-            return true;
+            $_SESSION['is_auth'] = true;
+            $_SESSION['email'] = $email;
+            return $data;
         } else {
+            $_SESSION['is_auth'] = false;
             return false;
-            // die("Error");
         }
         unset($db);
-        return true;
     }
 
-    function isAuth($email, $password) {
-	    $connect_str = self::DB_DRIVER . ':host='. self::DB_HOST . ';dbname=' . self::DB_NAME;
-        $db = new PDO($connect_str,self::DB_USER,self::DB_PASS);
+    function logout() {
+        $_SESSION = array();
+        session_destroy();
+    }
 
-        $sql = "SELECT FROM users WHERE email=$email AND password=$password";
-        $res = $db->prepare($sql);
-        $data = $res->execute();
-        if ($data) {
-            return true;
-        } else {
-            return false;
-            // die("Error");
-        }
-        unset($db);
+    function isAuth() {
+        if (isset($_SESSION['is_auth'])) {
+            return $_SESSION['is_auth'];
+        } else return false;
+
     }
 
     function register($name, $surname, $email, $password) {
@@ -52,12 +52,14 @@ class M_User {
         $sql = "INSERT INTO users (name, surname, email, password) VALUES (?, ?, ?, ?)";
         $res = $db->prepare($sql);
         $data = $res->execute([$name, $surname, $email, $password]);
+        // проверить на существование email
+        // $update = "UPDATE users SET password=md5(password)"; // шифрование
         if ($data) {
             return true;
         } else {
-            die("Error");
+            // die("Error");
+            return false;
         }
-        // $this->auth($email, $password);
         unset($db);
     }
 }

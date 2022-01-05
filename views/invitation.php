@@ -1,14 +1,8 @@
 <section class="registration center">
+    <h1><?=$info?></h1>
     <div class="registration__left">
         <a href="?action=auth&controller=user">Вход</a><br>
         <a href="?action=registration&controller=user">Регистрация</a>
-        <?php
-            if ($_GET['auth']) {
-                include_once('authForm.php');
-            } elseif ($_GET['reg']) {
-                include_once('registrationForm.php');
-            }
-        ?>
     </div>
     <div class="registration__right">
         <p class="registration__heading">
