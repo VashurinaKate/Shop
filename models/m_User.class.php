@@ -14,6 +14,23 @@ class M_User {
     const DB_USER = 'root';
     const DB_PASS = 'root';
 
+    function getUserId() {
+        $connect_str = self::DB_DRIVER . ':host='. self::DB_HOST . ';dbname=' . self::DB_NAME;
+        $db = new PDO($connect_str,self::DB_USER,self::DB_PASS);
+
+        $email = $_SESSION['email'];
+        $sql = "SELECT id FROM users WHERE email='$email'";
+        $res = $db->prepare($sql);
+        $res->execute();
+        $userId = $res->fetchColumn();
+        if ($userId) {
+            return $userId;
+        } else {
+            return false;
+        }
+        unset($db);
+    }
+
 	function auth($email, $password) {
 	    $connect_str = self::DB_DRIVER . ':host='. self::DB_HOST . ';dbname=' . self::DB_NAME;
         $db = new PDO($connect_str,self::DB_USER,self::DB_PASS);
@@ -25,7 +42,8 @@ class M_User {
         if ($data) {
             $_SESSION['is_auth'] = true;
             $_SESSION['email'] = $email;
-            return $data;
+            // return $data;
+            return true;
         } else {
             $_SESSION['is_auth'] = false;
             return false;

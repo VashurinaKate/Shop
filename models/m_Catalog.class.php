@@ -17,6 +17,11 @@ class M_Catalog {
         $connect_str = self::DB_DRIVER . ':host='. self::DB_HOST . ';dbname=' . self::DB_NAME;
         $db = new PDO($connect_str,self::DB_USER,self::DB_PASS);
 
+        if (isset($_GET['limit'])) {
+            $limit = $_GET['limit'];
+        } else {
+            $limit = 3;
+        }
         $sql = "SELECT * FROM goods LIMIT $limit";
         $res = $db->prepare($sql);
         $data = $res->execute();

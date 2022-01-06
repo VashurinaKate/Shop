@@ -27,6 +27,9 @@ switch ($_GET['controller'])
 	case 'user':
 		$controller = new User();
 		break;
+    case 'cart':
+        $controller = new Cart();
+        break;
 	default:
 		$controller = new Page();
 }

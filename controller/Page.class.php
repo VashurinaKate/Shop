@@ -7,15 +7,7 @@ class Page extends Base
 		$this->title .= 'Главная';
         $slogan = "The Brand Of Lux Fashion";
         $model = new M_Catalog;
-        $goods = $model->getGoods(3);
-		$this->content = $this->Template('views/index.php', array('slogan' => $slogan, 'goods' => $goods));
+        $goods = $model->getGoods(15);
+		$this->content = $this->Template('views/index.php', array('slogan' => $slogan, 'goods' => $goods, 'count' => count($goods)));
 	}
-    public function action_cart() {
-		$this->title .= 'Корзина';
-		$this->content = $this->Template('views/cart.php', array());
-	}
-    // public function action_registration() {
-	// 	$this->title .= 'Регистрация';
-	// 	$this->content = $this->Template('views/registration.php', array());
-	// }
 }

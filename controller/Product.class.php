@@ -9,8 +9,8 @@ class Product extends Base
         $catalog = new M_Catalog;
         $id = (int)$_GET['id'];
 		$productData = $product->getProduct($id);
-        $catalogData = $catalog->getGoods(3);
+        $goods = $catalog->getGoods(3);
 		$this->title .= 'Продукт';
-		$this->content = $this->Template('views/product.php', array('productData' => $productData, 'goods' => $catalogData));
+		$this->content = $this->Template('views/product.php', array('productData' => $productData, 'goods' => $goods, 'count' => count($goods)));
 	}
 }
