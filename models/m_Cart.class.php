@@ -24,8 +24,8 @@ class M_Cart {
         if ($data) {
             return $data;
         } else {
-            die($userId);
-            // return false;
+            // die($userId);
+            return false;
         }
         unset($db);
     }
@@ -34,16 +34,14 @@ class M_Cart {
         $connect_str = self::DB_DRIVER . ':host='. self::DB_HOST . ';dbname=' . self::DB_NAME;
         $db = new PDO($connect_str,self::DB_USER,self::DB_PASS);
 
-        $sql = "INSERT INTO cart (user_id, good_id, amount, order_id, date_of_create, date_of_update) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO cart (`good_id`, `order_id`, `user_id`, `amount`, `date_of_create`, `date_of_update`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $res = $db->prepare($sql);
 
         $date = date("Y-m-d");
-        $res->execute([$userId, $goodId, 1, 1, $date, $date]);
-        $data = $res->fetchAll(PDO::FETCH_ASSOC);
+        $data = $res->execute([$goodId, 1, $userId, 1, $date, $date, 'active']);
         if ($data) {
-            return true; // true ?? 
+            return $res->fetchAll(PDO::FETCH_ASSOC);
         } else {
-            // die('error');
             return false;
         }
         unset($db);

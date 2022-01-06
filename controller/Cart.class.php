@@ -19,22 +19,19 @@ class Cart extends Base
         }
 	}
 
-    public function action_add_to_cart($userId, $goodId) {
+    public function action_add_to_cart() {
 		$this->title .= 'Корзина';
         $cart = new M_Cart();
         $user = new M_User();
         $userId = $user->getUserId();
         $goodId = (int)$_GET['id'];
-        // $cartGoods = $cart->getCart($userId);
-        $success = $cart->addToCart($userId, $goodId);
-        if ($success) {
-            $info = "Товар успешно добавлен!";
-            $this->content = $this->Template('views/cart.php');
+        if ($cart->addToCart($userId, $goodId)) {
+            $addition_info = "Товар успешно добавлен!";
+            $this->content = $this->Template('views/cart.php', array('addition_info' => $addition_info));
         } else {
-            $info = "Что-то пошло не так";
-            $this->content = $this->Template('views/cart.php', array('info' => $info));
+            $addition_info = "Что-то пошло не так";
+            $this->content = $this->Template('views/cart.php', array('addition_info' => $addition_info));
         }
-		
 	}
 
     public function action_remove_from_cart($id) {

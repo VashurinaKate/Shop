@@ -1,4 +1,6 @@
 <h1><?=$info?></h1>
+<h1><?=$addition_info?></h1>
+
 <section class="cart center">
     <?php //foreach ($goods as $good) :?>
     <div class="cart__items">
