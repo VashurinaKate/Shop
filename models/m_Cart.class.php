@@ -42,7 +42,8 @@ class M_Cart {
         if ($data) {
             return $res->fetchAll(PDO::FETCH_ASSOC);
         } else {
-            return false;
+            // return false;
+            die($res->fetchAll(PDO::FETCH_ASSOC));
         }
         unset($db);
     }
