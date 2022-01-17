@@ -1,54 +1,36 @@
 <?php
-define('DB_DRIVER','mysql');
-define('DB_HOST','localhost');
-define('DB_NAME','shop');
-define('DB_USER','root');
-define('DB_PASS','root');
-
-session_start();
-
 class M_User {
-    const DB_DRIVER = 'mysql';
-    const DB_HOST = 'localhost';
-    const DB_NAME = 'shop';
-    const DB_USER = 'root';
-    const DB_PASS = 'root';
+    // protected $userId, $userLogin, $userName, $userPassword;
 
-    function getUserId() {
-        $connect_str = self::DB_DRIVER . ':host='. self::DB_HOST . ';dbname=' . self::DB_NAME;
-        $db = new PDO($connect_str,self::DB_USER,self::DB_PASS);
+    // public function __construct(){}
+    public function setPass($email, $password) {
+	    return strrev(md5($email)) . md5($password);
+    }
 
-        $email = $_SESSION['email'];
-        $sql = "SELECT id FROM users WHERE email='$email'";
-        $res = $db->prepare($sql);
-        $res->execute();
-        $userId = $res->fetchColumn();
-        if ($userId) {
-            return $userId;
-        } else {
-            return false;
-        }
-        unset($db);
+    public function getUserData($id)
+    {
+        $query = "SELECT * FROM users WHERE id=" . $id;
+        $res = M_Pdo::Instance() -> Select($query);
+        return $res;
     }
 
 	function auth($email, $password) {
-	    $connect_str = self::DB_DRIVER . ':host='. self::DB_HOST . ';dbname=' . self::DB_NAME;
-        $db = new PDO($connect_str,self::DB_USER,self::DB_PASS);
-
-        $sql = "SELECT * FROM users WHERE email='$email' AND password='$password'";
-        $res = $db->prepare($sql);
-        $res->execute();
-        $data = $res->fetchAll(PDO::FETCH_ASSOC);
-        if ($data) {
-            $_SESSION['is_auth'] = true;
-            $_SESSION['email'] = $email;
-            // return $data;
+	    $query = "SELECT * FROM users WHERE email='". $email . "'";
+        $res = M_Pdo::Instance() -> Select($query);
+        if ($res) {
+            if ($res['password'] == $this -> setPass($email, $password)) {
+            $_SESSION['user_id'] = $res['id'];
+            //     return 'Добро пожаловать в систему, ' . $res['name'] . '!';
             return true;
-        } else {
-            $_SESSION['is_auth'] = false;
+            } else {
+            //     return 'Пароль не верный!';
+                return false;
+            }
+        } 
+        else {
+            // return 'Пользователь с таким логином не зарегистрирован!';
             return false;
         }
-        unset($db);
     }
 
     function logout() {
@@ -56,28 +38,28 @@ class M_User {
         session_destroy();
     }
 
-    function isAuth() {
-        if (isset($_SESSION['is_auth'])) {
-            return $_SESSION['is_auth'];
-        } else return false;
-
-    }
-
-    function register($name, $surname, $email, $password) {
-        $connect_str = self::DB_DRIVER . ':host='. self::DB_HOST . ';dbname=' . self::DB_NAME;
-        $db = new PDO($connect_str,self::DB_USER,self::DB_PASS);
-
-        $sql = "INSERT INTO users (name, surname, email, password) VALUES (?, ?, ?, ?)";
-        $res = $db->prepare($sql);
-        $data = $res->execute([$name, $surname, $email, $password]);
-        // проверить на существование email
-        // $update = "UPDATE users SET password=md5(password)"; // шифрование
-        if ($data) {
-            return true;
+    function regUser($name, $surname, $email, $password) {
+        $query = "SELECT * FROM users WHERE email = '" . $email . "'";
+        $res = M_Pdo::Instance() -> Select($query);
+        if (!$res) {
+            $password = $this -> setPass($email, $password);
+            $object = [
+              'name' => $name,
+              'surname' => $surname,
+              'email' => $email,
+              'password' => $password
+            ];
+            $res = M_Pdo::Instance() -> Insert('users', $object);
+            if (is_numeric($res)) {
+                // return "regUser(): Регистрация прошла успешно.";
+                return true;
+            } else {
+                // return "regUser(): Регистрация прервалась ошибкой.";
+                return false;
+            }
         } else {
-            // die("Error");
+            // return "regUser(): Пользователь уже существует.";
             return false;
         }
-        unset($db);
     }
 }

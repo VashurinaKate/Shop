@@ -1,14 +1,5 @@
 <?php
-spl_autoload_register(function($name){
-    // $dirs = ['controller'];
-    // $file = $name.".class.php";
-    // $check = false;
-    // foreach() {
-    //     if(is_file($file)) {
-            include_once("controller/$name.class.php");
-    //     }
-    // }
-});
+require_once 'autoload.php';
 
 $action = 'action_';
 $action .=(isset($_GET['action'])) ? $_GET['action'] : 'index';
@@ -35,4 +26,3 @@ switch ($_GET['controller'])
 }
 
 $controller->Request($action);
-
