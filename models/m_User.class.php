@@ -7,8 +7,7 @@ class M_User {
 	    return strrev(md5($email)) . md5($password);
     }
 
-    public function getUserData($id)
-    {
+    public function getUserData($id) {
         $query = "SELECT * FROM users WHERE id=" . $id;
         $res = M_Pdo::Instance() -> Select($query);
         return $res;
@@ -19,9 +18,9 @@ class M_User {
         $res = M_Pdo::Instance() -> Select($query);
         if ($res) {
             if ($res['password'] == $this -> setPass($email, $password)) {
-            $_SESSION['user_id'] = $res['id'];
-            //     return 'Добро пожаловать в систему, ' . $res['name'] . '!';
-            return true;
+                $_SESSION['user_id'] = $res['id'];
+                $_SESSION['user_name'] = $res['name'];
+                return true;
             } else {
             //     return 'Пароль не верный!';
                 return false;

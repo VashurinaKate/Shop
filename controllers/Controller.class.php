@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 abstract class Controller
 {
 	protected abstract function render();

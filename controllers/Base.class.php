@@ -22,9 +22,10 @@ abstract class Base extends Controller
 		$user = new M_User();
         
         if (isset($_SESSION['user_id'])) {
-            $userInfo = $user -> getUserData($_SESSION['user_id']);
+            $userData = $user -> getUserData($_SESSION['user_id']);
         } else {
-            $userInfo['name'] = false;
+            $userData = false;
+            // return false;
         }
 
 		$loader = new Twig_Loader_Filesystem('views'); 
@@ -34,7 +35,7 @@ abstract class Base extends Controller
             'title' => $this->title,
             'content' => $this->content, 
             'kw' => $this->keyWords,
-			'user' => $userInfo['name']
+			'userData' => $userData
         );
         echo $template -> render($vars);
 	}

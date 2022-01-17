@@ -10,10 +10,12 @@ class User extends Base {
 
 	public function action_account() {
 		$this->title .= 'Личный кабинет';
+		$user = new M_User();
+		$userData = $user->getUserData($_SESSION['user_id']);
 		$loader = new Twig_Loader_Filesystem('views'); 
         $twig = new Twig_Environment($loader);
 		$template = $twig -> loadTemplate('account.twig');
-		echo $template -> render(array());
+		echo $template -> render(array('userData' => $userData));
 	}
 
 	public function action_logout() {
@@ -34,23 +36,11 @@ class User extends Base {
         $twig = new Twig_Environment($loader);
 		$template = $twig -> loadTemplate('regForm.twig');
 
-		// if ($this -> IsPost()) {
-		// 	// $user = new M_User();
-		// 	$info = "Вы успешно зарегистрированы!";
-		// 	$res = $user -> regUser($_POST['name'], $_POST['surname'], $_POST['email'], $_POST['password']);
-		// 	echo $template -> render(array('content' => $res, 'info' => $info));
-		// } else {
-		// 	$info = 'Что-то пошло не так, попробуйте еще раз';
-		// 	echo $template -> render(array('info' => $info));
-		// }
-
 		if ($this -> IsPost()) {
 			if ($user->regUser($_POST['name'], $_POST['surname'], $_POST['email'], $_POST['password'])) {
 				$info = "Вы успешно зарегистрированы!";
 				$template = $twig -> loadTemplate('invitation.twig');
-				$vars = array(
-					'info' => $info
-				);
+				$vars = array('info' => $info);
 				echo $template -> render($vars);
 			} else {
 				$info = 'Пользователь с таким логином уже существует'; // ?????
@@ -66,34 +56,34 @@ class User extends Base {
 	}
 
 	public function action_auth() {
-		$this->title .= 'Вход';
+		// $this->title .= 'Вход';
         $user = new M_User();
-
 		$loader = new Twig_Loader_Filesystem('views'); 
         $twig = new Twig_Environment($loader); 
         
-        if ($_POST) {
-			$userData = $user->auth($_POST['email'], $_POST['password']);
-			if ($userData) {
+        if ($this -> IsPost()) {
+			$userAuth = $user->auth($_POST['email'], $_POST['password']);
+			if ($userAuth) {
+				$this->title .= 'Личный кабинет';
 				$info = 'Вы успешно вошли в аккаунт!';
+				$userData = $user->getUserData($_SESSION['user_id']);
 				$template = $twig -> loadTemplate('account.twig');
 				$vars = array(
 					'info' => $info,
-					'email' => $email,
-					'userData' => $userData
-				);
-				echo $template -> render($vars);
-			} 
-			else {
-				$info = 'Неправильно введен логин или пароль';
-				$template = $twig -> loadTemplate('authForm.twig');
-				$vars = array(
-					'info' => $info,
+					// 'email' => $email,
+					'userData' => $userData,
 				);
 				echo $template -> render($vars);
 			}
-		}
-		else {
+			else {
+				$this->title .= 'Вход';
+				$info = 'Неправильно введен логин или пароль';
+				$template = $twig -> loadTemplate('authForm.twig');
+				$vars = array('info' => $info);
+				echo $template -> render($vars);
+			}
+		} else {
+			$this->title .= 'Вход';
 			$template = $twig -> loadTemplate('authForm.twig');
 			echo $template -> render(array());
 		}
