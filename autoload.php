@@ -14,6 +14,7 @@ function autoloadClass($className) {
         if (is_file($fileName)) {
             require_once($fileName);
             $found = true;
+            break;
         }
     }
     if (!$found) {

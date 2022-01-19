@@ -20,16 +20,29 @@ class M_Pdo {
         $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
     }
 
-    public function Select($query) {
+    public function Select($table, $where_key = false, $where_value = false, $fetchAll = false) {
+
+        if ($where_key AND $where_value) {
+            $query = "SELECT * FROM " . $table . " WHERE " . $where_key . " = '" . $where_value . "'";
+        } else {
+            $query = "SELECT * FROM " . $table;
+        }
+
         $sql = $this->db->prepare($query);
         $sql->execute();
 
-        // if ($sql->errorCode() != PDO::ERR_NONE){
-        //     $info = $sql->errorInfo();
-        //     die($info[2]); 
-        // }
+        if ($sql->errorCode() != PDO::ERR_NONE){
+            $info = $sql->errorInfo();
+            die($info[2]); 
+        }
 
-        return $sql->fetch();
+        if ($fetchAll) {
+            return $sql->fetchAll();
+        } else if ($where_key AND $where_value) {
+            return $sql->fetch();
+        } else {
+            return $sql->fetchAll();
+        }
     }
 
     public function Insert ($table, $object) {
@@ -54,9 +67,8 @@ class M_Pdo {
         $q->execute($object);
 
         if ($q -> errorCode() != PDO::ERR_NONE) {
-            // $info = $q -> errorInfo();
-            // die($info[2]);
-            die(print_r($object));
+            $info = $q -> errorInfo();
+            die($info[2]);
         }
         return $this -> db -> lastInsertId();		
     }
@@ -76,10 +88,10 @@ class M_Pdo {
         $q = $this->db->prepare($query);
         $q->execute($object);
 
-        // if($q->errorCode() != PDO::ERR_NONE){
-        //     $info = $q->errorInfo();
-        //     die($info[2]); 
-        // }
+        if($q->errorCode() != PDO::ERR_NONE){
+            $info = $q->errorInfo();
+            die($info[2]); 
+        }
 
         return $q->rowCount();
     }
@@ -89,10 +101,10 @@ class M_Pdo {
         $q = $this->db->prepare($query);
         $q->execute();
 
-        // if($q->errorCode() != PDO::ERR_NONE){
-        //     $info = $q->errorInfo();
-        //     die($info[2]); 
-        // }
+        if($q->errorCode() != PDO::ERR_NONE){
+            $info = $q->errorInfo();
+            die($info[2]); 
+        }
         return $q->rowCount();
     }
 }

@@ -14,7 +14,7 @@
     <header class="header center">
         <div class="header__left">
             <a href="index.php"><img src="public/images/svg/logo.svg" alt="logo"></a>
-            <a href="?controller=goods&action=index"><img src="public/images/svg/search.svg" alt="search" class="header__search"></a>
+            <a href="?controller=goods&action=index&limit=20"><img src="public/images/svg/search.svg" alt="search" class="header__search"></a>
         </div>
         <nav class="header__right">
             <details>
@@ -65,9 +65,11 @@
             </a>
             {% endif %}
             
-            <a href="cart.html" class="header__icons cart-icon">
+            {% if userData %}
+            <a href="?id={{ userData['id'] }}&controller=cart" class="header__icons cart-icon">
                 <img src="public/images/svg/cart.svg"/>
             </a>
+            {% endif %}
         </nav>
     </header>
 

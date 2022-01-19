@@ -77,7 +77,8 @@ class User extends Base {
 			}
 			else {
 				$this->title .= 'Вход';
-				$info = 'Неправильно введен логин или пароль';
+				// $info = 'Неправильно введен логин или пароль';
+				$info = print_r($userAuth);
 				$template = $twig -> loadTemplate('authForm.twig');
 				$vars = array('info' => $info);
 				echo $template -> render($vars);

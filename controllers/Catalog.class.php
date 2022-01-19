@@ -1,11 +1,18 @@
 <?php
-include_once('models/M_Catalog.class.php');
 class Catalog extends Base
 {
 	public function action_index(){
-	    $model = new M_Catalog();
-		$goods = $model->getGoods(25);
+	    $catalog = new M_Catalog();
+		$goods = $catalog->getGoods();
 		$this->title .= 'Каталог';
-		$this->content = $this->Template('views/catalog.php', array('goods' => $goods, 'count' => count($goods)));
+		$loader = new Twig_Loader_Filesystem('views'); 
+        $twig = new Twig_Environment($loader);
+		$template = $twig -> loadTemplate('catalog.twig');
+		echo $template -> render(
+			array(
+				'goods' => $goods,
+				'count' => count($goods)
+			)
+		);
 	}
 }

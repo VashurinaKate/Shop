@@ -1,21 +1,29 @@
 <?php
-include_once('models/M_Cart.class.php');
-include_once('models/M_User.class.php');
-
 class Cart extends Base
 {
     public function action_index() {
-		$this->title .= 'Корзина';
+		$this->title .= 'Cart';
         $cart = new M_Cart();
-        $user = new M_User();
-        $userId = $user->getUserId();
+        $catalog = new M_Catalog();
+        $userId = $_GET['id'];
         $cartGoods = $cart->getCart($userId);
+        $goods = $catalog->getGoods();
+
+        $loader = new Twig_Loader_Filesystem('views'); 
+        $twig = new Twig_Environment($loader);
+        $template = $twig -> loadTemplate('cart.twig');
         if ($cartGoods) {
             $info = "Your cart";
-            $this->content = $this->Template('views/cart.php', array('cartGoods' => $cartGoods, 'info' => $info));
+            echo $template -> render(
+                array(
+                    'cartGoods' => $cartGoods,
+                    'goods' => $goods,
+                    'info' => $info
+                )
+            );
         } else {
-            $info = "Ваша корзина пуста";
-            $this->content = $this->Template('views/cart.php', array('info' => $info));
+            $info = "Your cart is empty";
+            echo $template -> render(array('info' => $info));
         }
 	}
 

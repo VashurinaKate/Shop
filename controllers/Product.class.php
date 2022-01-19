@@ -1,16 +1,23 @@
 <?php
-include_once('models/M_Product.class.php');
-include_once('models/M_Catalog.class.php');
-
 class Product extends Base
 {
-	public function action_product(){
-	    $product = new M_Product;
-        $catalog = new M_Catalog;
+	public function action_product() {
+		$this->title .= 'Product';
+	    $product = new M_Product();
+        $catalog = new M_Catalog();
         $id = (int)$_GET['id'];
 		$productData = $product->getProduct($id);
-        $goods = $catalog->getGoods(3);
-		$this->title .= 'Продукт';
-		$this->content = $this->Template('views/product.php', array('productData' => $productData, 'goods' => $goods, 'count' => count($goods)));
+        $goods = $catalog->getGoods();
+
+		$loader = new Twig_Loader_Filesystem('views'); 
+        $twig = new Twig_Environment($loader);
+		$template = $twig -> loadTemplate('product.twig');
+		echo $template -> render(
+			array(
+				'productData' => $productData,
+				'goods' => $goods,
+				'count' => count($goods)
+			)
+		);
 	}
 }

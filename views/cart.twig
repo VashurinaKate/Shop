@@ -1,15 +1,14 @@
-<h1><?=$info?></h1>
-<h1><?=$addition_info?></h1>
+<h1>{{ info }}</h1>
 
 <section class="cart center">
-    <?php //foreach ($goods as $good) :?>
+    {# {% for good in goods %} #}
     <div class="cart__items">
-        <?php foreach ($cartGoods as $cartGood): ?>
+        {% for cartGood in cartData %}
         <div class="cart__item">
-            <a href="?<?=$cartGood['good_id']?>&action=product&controller=good"><img src="../public/images/products/<?=$good['img']?>" alt="product" class="cart__img"></a>
+            <a href="?{{ cartGood['product_id'] }}&action=product&controller=good"><img src="../public/images/products/{{ good['img'] }}" alt="product" class="cart__img"></a>
             <div class="cart__text">
                 <div class="cart__heading">
-                    <a href="?id=<?=$cartGood['good_id']?>&action=product&controller=good">ytjty</a>
+                    <a href="?id={{ cartGood['product_id'] }}&action=product&controller=good">title</a>
                 </div>
                     <p>Price: <span class="price">&dollar;56</span></p>
                     <p>Color: Red</p>
@@ -24,7 +23,7 @@
                     </svg>
             </div>
         </div>
-        <?php endforeach; ?>
+        {% endfor %}
         <div class="cart__bottom">
             <a href="#" class="btn btn--simple">Clear shopping cart</a>
             <a href="#" class="btn btn--simple">Continue shopping</a>
@@ -51,5 +50,5 @@
             <div class="btn btn--main">PROCEED TO CHECKOUT</div>
         </div>
     </div>
-    <?php //endforeach; ?>
+
 </section>

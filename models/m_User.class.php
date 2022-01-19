@@ -1,28 +1,22 @@
 <?php
 class M_User {
-    // protected $userId, $userLogin, $userName, $userPassword;
-
-    // public function __construct(){}
     public function setPass($email, $password) {
 	    return strrev(md5($email)) . md5($password);
     }
 
     public function getUserData($id) {
-        $query = "SELECT * FROM users WHERE id=" . $id;
-        $res = M_Pdo::Instance() -> Select($query);
+        $res = M_Pdo::Instance() -> Select('users', 'id', $id);
         return $res;
     }
 
 	function auth($email, $password) {
-	    $query = "SELECT * FROM users WHERE email='". $email . "'";
-        $res = M_Pdo::Instance() -> Select($query);
+        $res = M_Pdo::Instance() -> Select('users', 'email', $email);
         if ($res) {
             if ($res['password'] == $this -> setPass($email, $password)) {
                 $_SESSION['user_id'] = $res['id'];
                 $_SESSION['user_name'] = $res['name'];
                 return true;
             } else {
-            //     return 'Пароль не верный!';
                 return false;
             }
         } 
@@ -38,8 +32,7 @@ class M_User {
     }
 
     function regUser($name, $surname, $email, $password) {
-        $query = "SELECT * FROM users WHERE email = '" . $email . "'";
-        $res = M_Pdo::Instance() -> Select($query);
+        $res = M_Pdo::Instance() -> Select('users', 'email', $email);
         if (!$res) {
             $password = $this -> setPass($email, $password);
             $object = [
@@ -50,10 +43,8 @@ class M_User {
             ];
             $res = M_Pdo::Instance() -> Insert('users', $object);
             if (is_numeric($res)) {
-                // return "regUser(): Регистрация прошла успешно.";
                 return true;
             } else {
-                // return "regUser(): Регистрация прервалась ошибкой.";
                 return false;
             }
         } else {
