@@ -1,3 +1,9 @@
+{% extends "main.twig" %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
 <section class="product__slider">
     {% for product in productData %}
     <div class="product__slider-prev">
@@ -76,3 +82,8 @@
     {% endfor %}
 </section>
 {% include "catalog.twig" %}
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

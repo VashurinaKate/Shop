@@ -29,7 +29,11 @@ abstract class Base extends Controller
         }
 
 		$loader = new Twig_Loader_Filesystem('views'); 
-        $twig = new Twig_Environment($loader); 
+        $twig = new Twig_Environment($loader);
+        // $twig = new Twig_Environment($loader, [
+        //     'cache' => 'tcc', 'debug' => true
+        // ]);
+        // $twig->addExtension(new DebugExtension());
         $template = $twig -> loadTemplate('main.twig');
         $vars = array(
             'title' => $this->title,
@@ -38,5 +42,6 @@ abstract class Base extends Controller
 			'userData' => $userData
         );
         echo $template -> render($vars);
+        // echo $twig->render('main.twig', $vars);
 	}
 }

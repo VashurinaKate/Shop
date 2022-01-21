@@ -1,4 +1,9 @@
-{# {% session_start() %} #}
+{% extends "main.twig" %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
 <section class="registration center">
     <p>{% if info is defined %} {{ info }} {% endif %}</p>
     <h1>Welcome, {{ userData['name'] }}</h1>
@@ -13,3 +18,8 @@
     
     <a href="?action=logout&controller=user">Logout</a>
 </section>
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
