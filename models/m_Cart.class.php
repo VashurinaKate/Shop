@@ -1,38 +1,29 @@
 <?php
 class M_Cart {
     function getCart($userId) {
-        $query = "SELECT * FROM cart WHERE user_id=$userId";
-        $res = M_Pdo::Instance() -> Select($query);
+        $res = M_Pdo::Instance() -> Select('cart', 'user_id', $userId, true);
+        // $cart[] = $res;
+        $id = $res['product_id'];
         if ($res) {
-            return $res;
+            // return $res;
+            // foreach ($cart as $cartGood) {
+                // $id = $cartGood['product_id'];
+                $data = M_Pdo::Instance() -> Select('catalog', 'id', $id);
+                return $data;
+            // }
         } else {
             // die($userId);
             return false;
         }
     }
 
-    function addToCart($userId, $goodId) {
-        $sql = "INSERT INTO cart (`good_id`, `order_id`, `user_id`, `amount`, `date_of_create`, `date_of_update`, `status`) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $res = $db->prepare($sql);
-
-        $date = date("Y-m-d");
-        $data = $res->execute([$goodId, 1, $userId, 1, $date, $date, 'active']);
-        if ($data) {
-            return $res->fetchAll(PDO::FETCH_ASSOC);
-        } else {
-            // return false;
-            die($res->fetchAll(PDO::FETCH_ASSOC));
-        }
-    }
-
     function removeFromCart($userId, $goodId) {
-        $sql = "UPDATE cart SET amount=$amount WHERE good_id=$id";
-        $res = $db->prepare($sql);
-        $data = $res->execute();
-        if ($data) {
-            return $res->fetchAll(PDO::FETCH_ASSOC); // true
+        $res = M_Pdo::Instance() -> Delete('cart', 'user_id', $id);
+        if ($res) {
+            return true;
         } else {
-            die('error');
+            // die('error');
+            return false;
         }
     }
 }

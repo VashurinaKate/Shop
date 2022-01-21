@@ -1,3 +1,9 @@
+{% extends "main.twig" %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
 <h1>{% if info is defined %} {{ info }} {% endif %}</h1>
 <form method="post" class="registration__form">
     <label for="email">Login details</label>
@@ -11,3 +17,8 @@
             </svg>
     </input>
 </form>
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}

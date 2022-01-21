@@ -7,7 +7,7 @@ class Cart extends Base
         $catalog = new M_Catalog();
         $userId = $_GET['id'];
         $cartGoods = $cart->getCart($userId);
-        $goods = $catalog->getGoods();
+        // $goods = $catalog->getGoods();
 
         $loader = new Twig_Loader_Filesystem('views'); 
         $twig = new Twig_Environment($loader);
@@ -17,7 +17,7 @@ class Cart extends Base
             echo $template -> render(
                 array(
                     'cartGoods' => $cartGoods,
-                    'goods' => $goods,
+                    // 'goods' => $goods,
                     'info' => $info
                 )
             );
@@ -27,22 +27,7 @@ class Cart extends Base
         }
 	}
 
-    public function action_add_to_cart() {
-		$this->title .= 'Корзина';
-        $cart = new M_Cart();
-        $user = new M_User();
-        $userId = $user->getUserId();
-        $goodId = (int)$_GET['id'];
-        if ($cart->addToCart($userId, $goodId)) {
-            $addition_info = "Товар успешно добавлен!";
-            $this->content = $this->Template('views/cart.php', array('addition_info' => $addition_info));
-        } else {
-            $addition_info = "Что-то пошло не так";
-            $this->content = $this->Template('views/cart.php', array('addition_info' => $addition_info));
-        }
-	}
-
-    public function action_remove_from_cart($id) {
+    public function action_remove($id) {
 		$this->title .= 'Корзина';
         $cart = new Cart;
         $id = (int)$_GET['id'];

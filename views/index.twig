@@ -1,6 +1,21 @@
+{% extends "main.twig" %}
+{# {% block head %}
+    {{ parent() }}
+{% endblock %}
 
-{% include 'promo.twig' %}
-{% include 'sale.twig' %}
-{% include 'catalog.twig' %}
-{% include 'features.twig' %}
-{% include 'subscrForm.twig' %}
+{% block header %}
+    {{ parent() }}
+{% endblock %} #}
+
+{% block body %}
+    {% include 'promo.twig' %}
+    {% include 'sale.twig' %}
+    {# {% include 'catalog.twig' %} #}
+    {% include 'features.twig' %}
+    {% include 'subscrForm.twig' %}
+
+{% endblock %}
+
+{# {% block footer %}
+    {{ parent() }}
+{% endblock %} #}

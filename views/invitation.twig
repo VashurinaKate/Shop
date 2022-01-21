@@ -1,3 +1,9 @@
+{% extends "main.twig" %}
+{% block header %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
 <section class="registration center">
     <h1>{% if info is defined %} {{ info }} {% endif %}</h1>
     <div class="registration__left">
@@ -18,3 +24,8 @@
         </ul>
     </div>
 </section>
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+{% endblock %}
