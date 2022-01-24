@@ -20,7 +20,6 @@ class Page extends Base
 			'goods' => $goods,
 			'count' => count($goods)
         );
-        echo $template -> renderBlock('body', $vars);
-        // echo $twig->render('index.twig', $vars);
+        echo $template->render($vars);
 	}
 }

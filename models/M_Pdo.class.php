@@ -96,8 +96,8 @@ class M_Pdo {
         return $q->rowCount();
     }
 
-    public function Delete ($table, $where) {
-        $query = "DELETE FROM $table WHERE $where";
+    public function Delete ($table, $where_key, $where_value) {
+        $query = "DELETE FROM " . $table . " WHERE " . $where_key . " = '" . $where_value . "'";
         $q = $this->db->prepare($query);
         $q->execute();
 

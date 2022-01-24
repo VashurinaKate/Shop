@@ -1,8 +1,7 @@
 <?php
 class M_Product {
     function getProduct($id) {
-        $query = "SELECT * FROM catalog WHERE id=$id";
-        $res = M_Pdo::Instance() -> Select($query);
+        $res = M_Pdo::Instance() -> Select('catalog', 'id', $id, true);
         if ($res) {
             return $res;
         } else {
