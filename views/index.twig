@@ -1,10 +1,9 @@
 {% extends "main.twig" %}
+{# {% block header %}
+    {{ parent() }}
+{% endblock %} #}
 {# {% block head %}
-    {{ parent() }}
-{% endblock %}
-
-{% block header %}
-    {{ parent() }}
+    {% block title %} Главная {% endblock %}
 {% endblock %} #}
 
 {% block body %}
@@ -13,9 +12,8 @@
     {# {% include 'catalog.twig' %} #}
     {% include 'features.twig' %}
     {% include 'subscrForm.twig' %}
-
 {% endblock %}
-
-{# {% block footer %}
+{# 
+{% block footer %}
     {{ parent() }}
 {% endblock %} #}

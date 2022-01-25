@@ -1,7 +1,7 @@
 {% extends "main.twig" %}
-{% block header %}
+{# {% block header %}
     {{ parent() }}
-{% endblock %}
+{% endblock %} #}
 
 {% block body %}
 <h1>{{ info }}</h1>
@@ -22,7 +22,7 @@
             </div>
             <div class="products__item-content">
                 <div class="products__item-name">
-                    <a href="?id={{ good['id'] }}&action=product&controller=good">{{ good.title }}</a>
+                    <a href="?id={{ good['id'] }}&action=product&controller=good">{{ good['title'] }}</a>
                 </div>
                 <div class="products__item-description">
                     <p>{{ good['shortinfo'] }}</p>
@@ -39,6 +39,6 @@
 </div>
 {% endblock %}
 
-{% block footer %}
+{# {% block footer %}
     {{ parent() }}
-{% endblock %}
+{% endblock %} #}

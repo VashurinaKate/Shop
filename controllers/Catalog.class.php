@@ -29,13 +29,14 @@ class Catalog extends Base
         $template = $twig -> loadTemplate('catalog.twig');// ???????
 
         if ($catalog->addToCart($userId, $productId)) {
-            $info = "Товар успешно добавлен!";
-            echo $template -> render(
-                array(
-                    // 'goods' => $goods,
-                    'info' => $info
-                )
-            );
+            // $info = "Товар успешно добавлен!";
+            // echo $template -> render(
+            //     array(
+            //         // 'goods' => $goods,
+            //         'info' => $info
+            //     )
+            // );
+            echo '<script> window.location="index.php?controller=goods"</script>';
         } else {
             $info = "Что-то пошло не так";
             echo $template -> render(
