@@ -10,8 +10,9 @@ class M_Cart {
         }
     }
 
-    function removeFromCart($productId) {
-        $res = M_Pdo::Instance() -> Delete('cart', 'product_id', $productId);
+    function removeFromCart($userId, $productId) {
+        $whereVal = "user_id=$userId AND product_id";
+        $res = M_Pdo::Instance() -> Delete('cart', $whereVal, $productId);
         if ($res) {
             return true;
         } else {

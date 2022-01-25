@@ -36,7 +36,7 @@ class Cart extends Base
         $twig = new Twig_Environment($loader);
         $template = $twig -> loadTemplate('cart.twig');
 
-        if ($cart->removeFromCart($productId)) {
+        if ($cart->removeFromCart($userId, $productId)) {
             $cartGoods = $cart->getCart($userId);
             echo $template -> render(
                 array(
